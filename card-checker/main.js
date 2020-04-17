@@ -24,11 +24,58 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 
 // Add your functions below:
+const calculateNumber = (array, i) => (array[i] * 2) > 9 ? (array[i] * 2 - 9) : (array[i] * 2);
+
+const checkResult = sum => (sum % 10 === 0) ? "valid" : "invalid";
+
+const idInvalidCardCompanies = (firstNumber) => {
+    if (firstNumber === 3) {
+     return "AMEX";
+    }
+    else if (firstNumber === 4) {
+      return "VISA";
+    }
+    else if (firstNumber === 5) {
+      return "MASTERCARD";
+    }
+    else if (firstNumber === 6) {
+      return "DISCOVER";
+    }
+};
+
+const validCred = (cardNumberArray) => {
+  let numberDouble = cardNumberArray.length -2;
+  let sum = 0;
+  for (let i = cardNumberArray.length -1; i >= 0; i -= 1) {
+    if (i === numberDouble) {
+      sum += calculateNumber(cardNumberArray, i);
+      numberDouble -= 2;
+    }
+    else {
+      sum += cardNumberArray[i];
+    }
+  }
+  return checkResult(sum);
+}
 
 
+  const findInvalidCards = (creditCardsArray) => {
+    let resultArray = [];
+    let invalidList = [];
+    for (let i = creditCardsArray.length -1 ; i >= 0 ; i -= 1 ) {
+       if (validCred(creditCardsArray[i]) === "invalid") {
+        resultArray.push(creditCardsArray[i]);
+       }
+    }
+   for (let j = resultArray.length - 1; j >= 0; j -= 1 ) {
+    invalidList.push(idInvalidCardCompanies(resultArray[j][0]));
 
+   }
+   let uniqInvalidList = [...new Set(invalidList)];
+    return uniqInvalidList;
+  }
 
-
+console.log(findInvalidCards(batch));
 
 
 
